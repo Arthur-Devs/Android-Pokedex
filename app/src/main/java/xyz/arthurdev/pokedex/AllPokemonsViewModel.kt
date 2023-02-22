@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import xyz.arthurdev.pokedex.`object`.Pokemon
 import xyz.arthurdev.pokedex.service.ApiService
 
-class AllPokemonsViewModel(private val service: ApiService) : ViewModel() {
+class AllPokemonsViewModel() : ViewModel() {
+    private val service = ApiService;
     private val _listAllPokemons = MutableLiveData<List<Pokemon>>()
     val listAllPokemons: LiveData<List<Pokemon>> = _listAllPokemons
 

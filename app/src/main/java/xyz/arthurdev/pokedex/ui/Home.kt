@@ -25,6 +25,7 @@ class Home : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pokemonViewModel = ViewModelProvider(this)[AllPokemonsViewModel::class.java]
+        Log.d("Test 1 ", "${pokemonViewModel.listAllPokemons.value}")
         pokemonViewModel.listAllPokemons.observe(this) { pokemons ->
             Log.d("Home", "Liste des pokémons : $pokemons")
         }
