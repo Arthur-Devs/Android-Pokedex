@@ -16,19 +16,7 @@ class AllPokemonsViewModel() : ViewModel() {
     fun fetchAllPokemons() {
         viewModelScope.launch {
             val pokemons = service.listAll()
-            _listAllPokemons.postValue(pokemons)
+            _listAllPokemons.postValue(pokemons.results)
         }
-    }
-
-    suspend fun loadData() {
-        // Load data from API or database
-        val data = service.listAll()
-
-        // Update the live data with the new data
-        _listAllPokemons.value = data
-    }
-
-    fun getValues(): List<Pokemon>? {
-        return _listAllPokemons.value;
     }
 }

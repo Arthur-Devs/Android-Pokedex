@@ -29,6 +29,7 @@ class Home : Fragment() {
         pokemonViewModel.listAllPokemons.observe(this) { pokemons ->
             Log.d("Home", "Liste des pokémons : $pokemons")
         }
+        pokemonViewModel.fetchAllPokemons()
     }
 
     override fun onCreateView(
