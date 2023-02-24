@@ -1,5 +1,6 @@
 package xyz.arthurdev.pokedex.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,7 @@ import xyz.arthurdev.pokedex.api.ApiService
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 
 class PokemonViewModel() : ViewModel() {
-    private val page = 0;
+    private var page = 0;
     private var limit = 10;
     private val service = ApiService
     private val _pokemonMutableLiveData = MutableLiveData<List<SinglePokemonResponse>>()
@@ -17,7 +18,9 @@ class PokemonViewModel() : ViewModel() {
 
     fun loadNextPokemon() {
         viewModelScope.launch {
-            val pokemons = service.list(limit,page*limit);
+            val pokemons = service.list(limit,page*limit)
+            page +=1
+
             val list = ArrayList<SinglePokemonResponse>()
             val value = _pokemonMutableLiveData.value
             if (value != null){

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
 import xyz.arthurdev.pokedex.`object`.Pokemon
 import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
 
+
 /**
  * A simple [Fragment] subclass.
  * Use the [Home.newInstance] factory method to
@@ -23,6 +25,8 @@ import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
 class Home : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+
+    private var loading = true;
 
     private var pokemonList: List<Pokemon> = ArrayList();
 
@@ -37,8 +41,8 @@ class Home : Fragment() {
 
         pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
-            Log.d("test",pokemons.toString())
             adapter.addPokemon(pokemons)
+            loading = false;
         }
         pokemonViewModel.loadNextPokemon()
     }
@@ -59,6 +63,17 @@ class Home : Fragment() {
 
         adapter = RecyclerAdapter()
         recyclerView.adapter = adapter
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val scrollRemaining = recyclerView.computeVerticalScrollRange()-recyclerView.computeVerticalScrollOffset()-recyclerView.computeVerticalScrollExtent()
+                if (scrollRemaining < 1500 && !loading) {
+                    loading = true
+                    pokemonViewModel.loadNextPokemon()
+                }
+            }
+        })
 
     }
 }

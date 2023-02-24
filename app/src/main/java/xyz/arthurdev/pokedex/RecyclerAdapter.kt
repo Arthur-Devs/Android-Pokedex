@@ -56,25 +56,9 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     fun addPokemon(pokemonList: List<SinglePokemonResponse>){
-        Log.d("adapter","new pokemon")
         val index = pokemons.size
-        pokemons = pokemons.plus(pokemonList)
+        pokemons =pokemonList
         notifyDataSetChanged()
-    }
-
-    fun getBitmapFromURL(strURL: String): Bitmap? {
-        return try {
-            val url = URL(strURL)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input = connection.inputStream
-            BitmapFactory.decodeStream(input)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-
     }
 
 }
