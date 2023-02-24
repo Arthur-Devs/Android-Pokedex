@@ -44,13 +44,14 @@ class Home : Fragment() {
             adapter.addPokemon(pokemons)
             loading = false;
         }
-        pokemonViewModel.loadNextPokemon()
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        pokemonViewModel.loadNextPokemon()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
