@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
         // Because we're creating the NavHostFragment using FragmentContainerView, we must
         // retrieve the NavController directly from the NavHostFragment instead
-        print(R.id.nav_host_fragment)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         print(navHostFragment)
