@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.squareup.picasso.Picasso
 import xyz.arthurdev.pokedex.R
+import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
 
-class PokemonDetail : Fragment() {
+class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
     val args: PokemonDetailArgs by navArgs()
+    private var fragmentBinding: FramentPokemonDetailBinding? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,9 +25,19 @@ class PokemonDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FramentPokemonDetailBinding.bind(view)
+        fragmentBinding = binding
         val pokemon = args.pokemon
-        Log.d("DETAIL", pokemon.toString())
+        binding.pokemonDetailName.text = pokemon.name
 
+        Picasso.with(binding.pokemonDetailImage.context).load(pokemon.sprites.front_default).into(binding.pokemonDetailImage)
+    }
+
+    override fun onDestroyView() {
+        // Consider not storing the binding instance in a field
+        // if not needed.
+        fragmentBinding = null
+        super.onDestroyView()
     }
 }
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="isiPertanyaan" type="id" />
+    <item name="pokemonDetail_name" type="id" />
 </resources>
