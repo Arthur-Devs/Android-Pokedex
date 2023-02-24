@@ -32,6 +32,7 @@
                 android:id="@+id/pokemon_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
                 card_view:layout_constraintStart_toEndOf="@id/pokemon_sprite"
                 card_view:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintBottom_toBottomOf="parent"
