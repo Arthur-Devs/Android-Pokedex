@@ -3,15 +3,21 @@ package xyz.arthurdev.pokedex
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Bundle
+import android.text.Layout.Directions
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
+import xyz.arthurdev.pokedex.ui.Home
+import xyz.arthurdev.pokedex.ui.HomeDirections
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -22,19 +28,16 @@ import java.net.URL
 class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     private var pokemons: List<SinglePokemonResponse> = ArrayList();
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-
-    }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var pokemonName: TextView
         var pokemonImage: ImageView
+        var card: CardView
 
         init {
             pokemonName = itemView.findViewById(R.id.pokemon_name)
             pokemonImage = itemView.findViewById(R.id.pokemon_sprite)
+            card = itemView.findViewById(R.id.card)
         }
 
     }
@@ -48,7 +51,13 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         viewHolder.pokemonName.text = pokemons.elementAt(i).name
 
         Picasso.with(viewHolder.pokemonImage.context).load(pokemons.elementAt(i).sprites.front_default).into(viewHolder.pokemonImage)
-
+        viewHolder.card.setOnClickListener {
+            val bundle = Bundle()
+            val pokemon = pokemons.elementAt(i)
+            bundle.putSerializable("MyData", pokemon)
+            val action = HomeDirections.actionHomeToPokemonDetail(pokemon)
+            it.findNavController().navigate(action)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -56,7 +65,6 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     fun addPokemon(pokemonList: List<SinglePokemonResponse>){
-        val index = pokemons.size
         pokemons =pokemonList
         notifyDataSetChanged()
     }

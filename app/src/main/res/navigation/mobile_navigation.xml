@@ -8,5 +8,18 @@
         android:id="@+id/home"
         android:name="xyz.arthurdev.pokedex.ui.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_pokemonDetail"
+            app:destination="@id/pokemonDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonDetail"
+        android:name="xyz.arthurdev.pokedex.ui.PokemonDetail"
+        android:label="frament_pokemon_detail"
+        tools:layout="@layout/frament_pokemon_detail" >
+        <argument
+            android:name="pokemon"
+            app:argType="xyz.arthurdev.pokedex.models.SinglePokemonResponse" />
+ </fragment>
 </navigation>

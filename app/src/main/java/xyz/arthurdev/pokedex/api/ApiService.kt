@@ -22,6 +22,6 @@ object ApiService {
     }
 
     suspend fun getPokemonByName(name: String): SinglePokemonResponse{
-        return service.getSinglePokemon(name);
+        return service.getSinglePokemon(name)
     }
 }
