@@ -2,16 +2,18 @@ package xyz.arthurdev.pokedex.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import xyz.arthurdev.pokedex.AllPokemonsViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import xyz.arthurdev.pokedex.R
-import xyz.arthurdev.pokedex.service.SimpleService
+import xyz.arthurdev.pokedex.RecyclerAdapter
+import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
+import xyz.arthurdev.pokedex.`object`.Pokemon
+import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -20,16 +22,25 @@ import xyz.arthurdev.pokedex.service.SimpleService
  */
 class Home : Fragment() {
 
-    private lateinit var pokemonViewModel: AllPokemonsViewModel
+    private lateinit var binding: FragmentHomeBinding
+
+    private var pokemonList: List<Pokemon> = ArrayList();
+
+    private lateinit var pokemonViewModel: PokemonViewModel
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private lateinit var adapter: RecyclerAdapter;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pokemonViewModel = ViewModelProvider(this)[AllPokemonsViewModel::class.java]
-        Log.d("Test 1 ", "${pokemonViewModel.listAllPokemons.value}")
-        pokemonViewModel.listAllPokemons.observe(this) { pokemons ->
-            Log.d("Home", "Liste des pokémons : $pokemons")
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
+        pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
+            Log.d("test",pokemons.toString())
+            adapter.addPokemon(pokemons)
         }
-        pokemonViewModel.fetchAllPokemons()
+        pokemonViewModel.loadNextPokemon()
     }
 
     override fun onCreateView(
@@ -38,5 +49,16 @@ class Home : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(itemView, savedInstanceState)
+        val recyclerView = itemView.findViewById<RecyclerView>(R.id.recycle_view)
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager=layoutManager
+
+        adapter = RecyclerAdapter()
+        recyclerView.adapter = adapter
+
     }
 }
