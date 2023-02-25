@@ -38,7 +38,7 @@
         android:layout_marginTop="50dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pokemonDetail_stats"
+        android:id="@id/pokemonDetail_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_physicalAttributes"

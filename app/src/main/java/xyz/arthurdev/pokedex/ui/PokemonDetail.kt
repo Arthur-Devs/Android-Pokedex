@@ -35,14 +35,13 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         fragmentBinding = binding
         val pokemon = args.pokemon
         
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycle_view)
-        val layoutManager = LinearLayoutManager(context)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.pokemonDetail_stats)
+        layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
 
         binding.pokemonDetailName.text = pokemon.name
         binding.pokemonDetailPhysicalAttributes.text = "Height: ${pokemon.height} - Weight: ${pokemon.weight}"
 
-        // display the list of statistics by using a recycler view of id "pokemonDetail_stats" utilizing the "pokemonStat" fragment
         val adapter = RecyclerAdapterStatistics()
         binding.pokemonDetailStats.adapter = adapter
 
