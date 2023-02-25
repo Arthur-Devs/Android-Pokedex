@@ -5,47 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.PokemonDetail"
-    android:id="@+id/pokemonDetail_container">
+    android:id="@+id/pokemonStat">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/pokemonDetail_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <TextView
+        android:id="@+id/pokemonStat_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp"
-        android:contentDescription="@string/pokemon_sprite" />
-    <TextView
-        android:id="@id/pokemonDetail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="50dp"/>
 
     <TextView
-        android:id="@id/pokemonDetail_physicalAttributes"
+        android:id="@+id/pokemonStat_baseStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonStat_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_name"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="50dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pokemonDetail_stats"
-        android:layout_width="match_parent"
+      
+    <TextView
+        android:id="@+id/pokemonStat_effort"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_physicalAttributes"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonStat_baseStat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="50dp"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
