@@ -59,8 +59,9 @@ class RecyclerAdapterStatistics() : RecyclerView.Adapter<RecyclerAdapterStatisti
         return stats.size
     }
 
-    fun addPokemon(statList: List<Stats>){
+    fun addStats(statList: List<Stats>){
         stats =statList
+        println("Stats: $stats")
         notifyDataSetChanged()
     }
 

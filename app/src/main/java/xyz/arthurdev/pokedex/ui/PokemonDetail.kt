@@ -20,6 +20,13 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adapter: RecyclerAdapterStatistics;
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentBinding = FramentPokemonDetailBinding.inflate(layoutInflater)
+        adapter = RecyclerAdapterStatistics()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,6 +45,8 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.pokemonDetail_stats)
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
+
+        adapter.addStats(pokemon.stats)
 
         binding.pokemonDetailName.text = pokemon.name
         binding.pokemonDetailPhysicalAttributes.text = "Height: ${pokemon.height} - Weight: ${pokemon.weight}"
