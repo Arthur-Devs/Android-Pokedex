@@ -29,6 +29,7 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         fragmentBinding = binding
         val pokemon = args.pokemon
         binding.pokemonDetailName.text = pokemon.name
+        binding.pokemonDetailPhysicalAttributes.text = "Height: ${pokemon.height} - Weight: ${pokemon.weight}"
 
         Picasso.with(binding.pokemonDetailImage.context).load(pokemon.sprites.front_default).into(binding.pokemonDetailImage)
     }
