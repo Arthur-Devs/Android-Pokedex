@@ -41,7 +41,7 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         val binding = FramentPokemonDetailBinding.bind(view)
         fragmentBinding = binding
         val pokemon = args.pokemon
-        
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.pokemonDetail_stats)
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
@@ -49,6 +49,7 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
 
         binding.pokemonDetailName.text = pokemon.name
         binding.pokemonDetailPhysicalAttributes.text = "Height: ${pokemon.height} - Weight: ${pokemon.weight}"
+        binding.pokemonDetailTypes.text = "Types: ${pokemon.types.map { it.type.name }.joinToString(" - ")}"
 
         adapter = RecyclerAdapterStatistics()
         adapter.addStats(pokemon.stats)
