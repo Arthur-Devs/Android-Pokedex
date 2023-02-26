@@ -46,12 +46,12 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager=layoutManager
 
-        adapter.addStats(pokemon.stats)
 
         binding.pokemonDetailName.text = pokemon.name
         binding.pokemonDetailPhysicalAttributes.text = "Height: ${pokemon.height} - Weight: ${pokemon.weight}"
 
-        val adapter = RecyclerAdapterStatistics()
+        adapter = RecyclerAdapterStatistics()
+        adapter.addStats(pokemon.stats)
         recyclerView.adapter = adapter
 
         Picasso.with(binding.pokemonDetailImage.context).load(pokemon.sprites.front_default).into(binding.pokemonDetailImage)
