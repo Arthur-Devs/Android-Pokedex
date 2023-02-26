@@ -10,5 +10,6 @@ data class SinglePokemonResponse(
     val height: Int,
     val weight: Int,
     val name: String,
-    val id: Int
+    val id: Int,
+    val types: List<Types>,
 ): Serializable
