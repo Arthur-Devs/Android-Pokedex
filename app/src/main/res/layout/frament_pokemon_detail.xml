@@ -19,8 +19,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/pokemon_sprite" />
+
     <TextView
         android:id="@id/pokemonDetail_name"
         android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@id/pokemonDetail_types"
@@ -37,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_name"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:id="@id/pokemonDetail_physicalAttributes"
@@ -51,10 +52,11 @@
     <include
         layout="@layout/stat_header"
         android:id="@id/stat_header"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/pokemonDetail_physicalAttributes"
-        app:layout_constraintBottom_toTopOf="@+id/pokemonDetail_stats"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
