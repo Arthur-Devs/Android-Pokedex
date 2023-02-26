@@ -41,7 +41,6 @@ class RecyclerAdapterStatistics() : RecyclerView.Adapter<RecyclerAdapterStatisti
 
     fun addStats(statList: List<Stats>){
         stats =statList
-        println("Stats: $stats")
         notifyDataSetChanged()
     }
 
