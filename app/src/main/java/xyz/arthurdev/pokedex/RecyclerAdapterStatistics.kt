@@ -1,31 +1,11 @@
 package xyz.arthurdev.pokedex
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.Bundle
-import android.text.Layout.Directions
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import xyz.arthurdev.pokedex.models.SinglePokemonResponse
-import xyz.arthurdev.pokedex.models.Stat
 import xyz.arthurdev.pokedex.models.Stats
-import xyz.arthurdev.pokedex.ui.Home
-import xyz.arthurdev.pokedex.ui.HomeDirections
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
-
 
 class RecyclerAdapterStatistics() : RecyclerView.Adapter<RecyclerAdapterStatistics.ViewHolder>() {
     private var stats: List<Stats> = ArrayList();
@@ -45,7 +25,7 @@ class RecyclerAdapterStatistics() : RecyclerView.Adapter<RecyclerAdapterStatisti
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.card_view, viewGroup, false)
+            .inflate(R.layout.card_pokemon_stats, viewGroup, false)
         return ViewHolder(v)
     }
 
