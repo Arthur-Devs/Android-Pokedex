@@ -2,4 +2,7 @@
 <resources>
     <item name="isiPertanyaan" type="id" />
     <item name="pokemonDetail_name" type="id" />
+    <item name="pokemonDetail_physicalAttributes" type="id" />
+    <item name="pokemonDetail_stats" type="id" />
+    <item name="pokemonDetail_types" type="id" />
 </resources>

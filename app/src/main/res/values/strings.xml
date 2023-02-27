@@ -5,4 +5,7 @@
     <string name="pokemon_name" />
     <string name="pokemon_sprite">sprite of the pokemon</string>
     <string name="pokemon_detail_title"> Pokemon details</string>
+    <string name="EV">Effort Value</string>
+    <string name="BaseStat">Base Stat</string>
+    <string name="StatName">Statistic name</string>
 </resources>

@@ -1,11 +1,9 @@
 package xyz.arthurdev.pokedex.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import xyz.arthurdev.pokedex.R
 import xyz.arthurdev.pokedex.RecyclerAdapter
 import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
-import xyz.arthurdev.pokedex.`object`.Pokemon
 import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
 
 
@@ -28,10 +25,7 @@ class Home : Fragment() {
 
     private var loading = true;
 
-    private var pokemonList: List<Pokemon> = ArrayList();
-
     private lateinit var pokemonViewModel: PokemonViewModel
-    private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adapter: RecyclerAdapter;
 
 

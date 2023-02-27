@@ -1,12 +1,9 @@
 package xyz.arthurdev.pokedex.api
 
-import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import xyz.arthurdev.pokedex.models.PokemonResponse
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
-import xyz.arthurdev.pokedex.`object`.Pokemon
-import xyz.arthurdev.pokedex.`object`.PokemonRequest
 
 object ApiService {
 

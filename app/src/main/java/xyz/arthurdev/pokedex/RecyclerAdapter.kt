@@ -1,11 +1,6 @@
 package xyz.arthurdev.pokedex
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.text.Layout.Directions
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
-import xyz.arthurdev.pokedex.ui.Home
 import xyz.arthurdev.pokedex.ui.HomeDirections
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
