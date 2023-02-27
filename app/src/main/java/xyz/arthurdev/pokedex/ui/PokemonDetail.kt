@@ -20,6 +20,8 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adapter: RecyclerAdapterStatistics;
 
+    private var shiny = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,12 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         recyclerView.adapter = adapter
 
         Picasso.with(binding.pokemonDetailImage.context).load(pokemon.sprites.front_default).into(binding.pokemonDetailImage)
+        binding.pokemonDetailImage.setOnClickListener{
+            shiny = !shiny
+            val image = if(shiny) pokemon.sprites.front_shiny else pokemon.sprites.front_default
+
+            Picasso.with(binding.pokemonDetailImage.context).load(image).into(binding.pokemonDetailImage)
+        }
     }
 
     override fun onDestroyView() {
