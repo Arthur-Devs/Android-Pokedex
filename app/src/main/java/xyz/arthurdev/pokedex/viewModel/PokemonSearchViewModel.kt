@@ -9,13 +9,11 @@ import xyz.arthurdev.pokedex.api.ApiService
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 
 class PokemonSearchViewModel() : ViewModel() {
-    private var page = 0;
-    private var limit: Int? = null;
     private val service = ApiService
     private val _pokemonMutableLiveData = MutableLiveData<List<SinglePokemonResponse>>()
     val pokemonLiveDate: LiveData<List<SinglePokemonResponse>> = _pokemonMutableLiveData
 
-    fun loadNextPokemon() {
+    fun loadAllPokemons() {
         viewModelScope.launch {
             val pokemons = service.listAll()
             val list = ArrayList<SinglePokemonResponse>()
