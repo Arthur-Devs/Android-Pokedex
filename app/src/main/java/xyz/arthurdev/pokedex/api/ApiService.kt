@@ -18,6 +18,10 @@ object ApiService {
         return service.getPokemons(limit,offset)
     }
 
+    suspend fun listAll(): PokemonResponse{
+        return service.getPokemons(null, null)
+    }
+
     suspend fun getPokemonByName(name: String): SinglePokemonResponse{
         return service.getSinglePokemon(name)
     }
