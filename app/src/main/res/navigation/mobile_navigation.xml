@@ -5,10 +5,10 @@
     android:id="@+id/mobile_navigation.xml"
     app:startDestination="@id/home">
     <fragment
-        android:id="@+id/home"
-        android:name="xyz.arthurdev.pokedex.ui.Home"
+        android:id="@+id/pokemon_list_fragment"
+        android:name="xyz.arthurdev.pokedex.ui.PokemonList"
         android:label="Pokedex"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_pokemon_list" >
         <action
             android:id="@+id/action_home_to_pokemonDetail"
             app:destination="@id/pokemonDetail" />
@@ -22,4 +22,20 @@
             android:name="pokemon"
             app:argType="xyz.arthurdev.pokedex.models.SinglePokemonResponse" />
  </fragment>
+    <fragment
+        android:id="@+id/home"
+        android:name="xyz.arthurdev.pokedex.ui.Home"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_home_to_pokemon_list_fragment"
+            app:destination="@id/pokemon_list_fragment" />
+        <action
+            android:id="@+id/action_home_to_regionListFragment"
+            app:destination="@id/regionListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/regionListFragment"
+        android:name="xyz.arthurdev.pokedex.ui.RegionListFragment"
+        android:label="fragment_region_list"
+        tools:layout="@layout/fragment_region_list" />
 </navigation>

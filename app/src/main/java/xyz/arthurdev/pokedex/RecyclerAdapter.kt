@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
-import xyz.arthurdev.pokedex.ui.HomeDirections
+import xyz.arthurdev.pokedex.ui.PokemonListDirections
 
 
 class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
@@ -44,7 +44,7 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
             val bundle = Bundle()
             val pokemon = pokemons.elementAt(i)
             bundle.putSerializable("MyData", pokemon)
-            val action = HomeDirections.actionHomeToPokemonDetail(pokemon)
+            val action = PokemonListDirections.actionHomeToPokemonDetail(pokemon)
             it.findNavController().navigate(action)
         }
     }

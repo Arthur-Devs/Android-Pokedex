@@ -8,4 +8,6 @@
     <string name="EV">Effort Value</string>
     <string name="BaseStat">Base Stat</string>
     <string name="StatName">Statistic name</string>
+    <string name="home_list_pokemon_button">List of all pokemon</string>
+    <string name="home_list_pokemon_by_region_button">List of pokemon by region</string>
 </resources>

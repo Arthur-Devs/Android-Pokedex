@@ -2,7 +2,8 @@ package xyz.arthurdev.pokedex.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import xyz.arthurdev.pokedex.models.PokemonResponse
+import xyz.arthurdev.pokedex.models.ListModelAPI
+import xyz.arthurdev.pokedex.models.Region
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 
 object ApiService {
@@ -14,15 +15,23 @@ object ApiService {
 
     private val service: PokemonApi = retrofit.create(PokemonApi::class.java)
 
-    suspend fun list(limit: Int,offset: Int): PokemonResponse{
+    suspend fun list(limit: Int,offset: Int): ListModelAPI{
         return service.getPokemons(limit,offset)
     }
 
-    suspend fun listAll(): PokemonResponse{
+    suspend fun listAll(): ListModelAPI{
         return service.getPokemons(null, null)
     }
 
     suspend fun getPokemonByName(name: String): SinglePokemonResponse{
         return service.getSinglePokemon(name)
+    }
+
+    suspend fun getRegions(limit: Int,offset: Int): ListModelAPI{
+        return service.getRegions(limit,offset)
+    }
+
+    suspend fun getRegion(id: Int): Region{
+        return service.getRegion(id)
     }
 }

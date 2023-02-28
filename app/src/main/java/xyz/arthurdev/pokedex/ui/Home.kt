@@ -1,74 +1,28 @@
 package xyz.arthurdev.pokedex.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
 import xyz.arthurdev.pokedex.R
-import xyz.arthurdev.pokedex.RecyclerAdapter
 import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
-import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
+import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
 
+class Home: Fragment(R.layout.fragment_home) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
-class Home : Fragment() {
+    private lateinit var binding :FragmentHomeBinding
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentHomeBinding.bind(view)
 
-    private lateinit var binding: FragmentHomeBinding
-
-    private var loading = true;
-
-    private lateinit var pokemonViewModel: PokemonViewModel
-    private lateinit var adapter: RecyclerAdapter;
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-
-        pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
-        pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
-            adapter.addPokemon(pokemons)
-            loading = false;
+        binding.homeListPokemonButton.setOnClickListener{
+            it.findNavController().navigate(HomeDirections.actionHomeToPokemonListFragment())
         }
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        pokemonViewModel.loadNextPokemon()
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-        val recyclerView = itemView.findViewById<RecyclerView>(R.id.recycle_view)
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager=layoutManager
-
-        adapter = RecyclerAdapter()
-        recyclerView.adapter = adapter
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val scrollRemaining = recyclerView.computeVerticalScrollRange()-recyclerView.computeVerticalScrollOffset()-recyclerView.computeVerticalScrollExtent()
-                if (scrollRemaining < 1500 && !loading) {
-                    loading = true
-                    pokemonViewModel.loadNextPokemon()
-                }
-            }
-        })
-
+        binding.homeListPokemonByRegionButton.setOnClickListener{
+            it.findNavController().navigate(HomeDirections.actionHomeToRegionListFragment())
+        }
     }
 }
