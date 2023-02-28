@@ -24,8 +24,20 @@ object ApiService {
     }
 
     suspend fun getPokemonByName(name: String): SinglePokemonResponse{
-        return service.getSinglePokemon(name)
+        return service.getPokemon(name)
     }
+    suspend fun getPokemon(name:String): SinglePokemonResponse{
+        return service.getPokemon(name)
+    }
+    suspend fun getPokemon(int:Int):SinglePokemonResponse{
+        return service.getPokemon(int)
+    }
+
+    suspend fun getPokemons(limit: Int,offset: Int): ListModelAPI{
+        return service.getPokemons(limit,offset)
+    }
+
+
 
     suspend fun getRegions(limit: Int,offset: Int): ListModelAPI{
         return service.getRegions(limit,offset)

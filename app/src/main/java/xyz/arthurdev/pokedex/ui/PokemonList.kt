@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flow
 import xyz.arthurdev.pokedex.R
 import xyz.arthurdev.pokedex.RecyclerAdapter
 import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
-import xyz.arthurdev.pokedex.viewModel.PokemonViewModel
+import xyz.arthurdev.pokedex.viewModel.NewPokemonViewModel
 
 
 /**
@@ -23,9 +26,10 @@ class PokemonList : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private var loading = true;
+    private var loading = true
+    private var page = 0
 
-    private lateinit var pokemonViewModel: PokemonViewModel
+    private lateinit var pokemonViewModel: NewPokemonViewModel
     private lateinit var adapter: RecyclerAdapter;
 
 
@@ -33,7 +37,7 @@ class PokemonList : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
+        pokemonViewModel = ViewModelProvider(this)[NewPokemonViewModel::class.java]
         pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
             adapter.addPokemon(pokemons)
             loading = false;
@@ -45,11 +49,14 @@ class PokemonList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        pokemonViewModel.loadNextPokemon()
+        pokemonViewModel.loadPokemons(page)
+        page++
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
     }
 
+    @OptIn(FlowPreview::class)
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
         val recyclerView = itemView.findViewById<RecyclerView>(R.id.recycle_view)
@@ -64,8 +71,10 @@ class PokemonList : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 val scrollRemaining = recyclerView.computeVerticalScrollRange()-recyclerView.computeVerticalScrollOffset()-recyclerView.computeVerticalScrollExtent()
                 if (scrollRemaining < 1500 && !loading) {
-                    loading = true
-                    pokemonViewModel.loadNextPokemon()
+                        loading = true
+                        pokemonViewModel.loadPokemons(page)
+                        page++
+
                 }
             }
         })

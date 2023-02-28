@@ -15,8 +15,13 @@ interface PokemonApi {
     ): ListModelAPI
 
     @GET("pokemon/{name}/")
-    suspend fun getSinglePokemon(
+    suspend fun getPokemon(
         @Path("name") name: String
+    ): SinglePokemonResponse
+
+    @GET("pokemon/{id}/")
+    suspend fun getPokemon(
+        @Path("id") id: Int
     ): SinglePokemonResponse
 
     @GET("region")
