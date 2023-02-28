@@ -3,10 +3,7 @@ package xyz.arthurdev.pokedex.repository
 import androidx.annotation.RestrictTo
 import kotlinx.coroutines.*
 import xyz.arthurdev.pokedex.api.ApiService
-import xyz.arthurdev.pokedex.models.ItemModelApi
-import xyz.arthurdev.pokedex.models.ListModelAPI
-import xyz.arthurdev.pokedex.models.Region
-import xyz.arthurdev.pokedex.models.SinglePokemonResponse
+import xyz.arthurdev.pokedex.models.*
 import java.util.*
 import java.util.stream.Collectors
 
@@ -64,5 +61,11 @@ object PokemonRepository {
             .toList().subList(offset,offset+limit)
             .sortedBy { (_, value) -> value.id }
             .toMap()
+    }
+
+    suspend fun getPokemonNeighbor(pokemon: SinglePokemonResponse):NeighborPokemon {
+        val previous = if(pokemon.id > 1) fetchPokemon(pokemon.id - 1) else null
+        val next = if(pokemon.id < count.get()) fetchPokemon(pokemon.id + 1) else null
+        return NeighborPokemon(previous,next)
     }
 }

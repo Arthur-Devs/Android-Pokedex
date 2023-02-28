@@ -10,4 +10,6 @@
     <string name="StatName">Statistic name</string>
     <string name="home_list_pokemon_button">List of all pokemon</string>
     <string name="home_list_pokemon_by_region_button">List of pokemon by region</string>
+    <string name="go_to_previous_pokemon">go to previous pokemon</string>
+    <string name="go_to_next_pokemon">Go to next pokemon</string>
 </resources>

@@ -68,6 +68,54 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="10dp" />
 
+    <LinearLayout
+        android:id="@+id/previous_pokemon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+    <ImageView
+        android:id="@+id/previous_arrow"
+        android:contentDescription="@string/go_to_previous_pokemon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_keyboard_arrow_left_24" />
+        <TextView
+            android:id="@+id/previous_pokemon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/next_pokemon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/next_arrow"
+            android:contentDescription="@string/go_to_next_pokemon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_gravity="right"
+            />
+        <TextView
+            android:id="@+id/next_pokemon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -21,7 +21,12 @@
         <argument
             android:name="pokemon"
             app:argType="xyz.arthurdev.pokedex.models.SinglePokemonResponse" />
- </fragment>
+        <action
+            android:id="@+id/action_pokemonDetail_self"
+            app:destination="@id/pokemonDetail"
+            app:popUpTo="@id/pokemon_list_fragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/home"
         android:name="xyz.arthurdev.pokedex.ui.Home"

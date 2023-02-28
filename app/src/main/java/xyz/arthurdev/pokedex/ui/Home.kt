@@ -12,11 +12,9 @@ import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
 import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
 
 class Home: Fragment(R.layout.fragment_home) {
-
-    private lateinit var binding :FragmentHomeBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHomeBinding.bind(view)
+        val binding = FragmentHomeBinding.bind(view)
 
         binding.homeListPokemonButton.setOnClickListener{
             it.findNavController().navigate(HomeDirections.actionHomeToPokemonListFragment())

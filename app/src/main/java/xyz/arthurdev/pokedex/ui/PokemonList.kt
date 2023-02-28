@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flow
 import xyz.arthurdev.pokedex.R
 import xyz.arthurdev.pokedex.RecyclerAdapter
 import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
+import xyz.arthurdev.pokedex.databinding.FragmentPokemonListBinding
 import xyz.arthurdev.pokedex.viewModel.NewPokemonViewModel
 
 
@@ -24,7 +25,6 @@ import xyz.arthurdev.pokedex.viewModel.NewPokemonViewModel
  */
 class PokemonList : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
 
     private var loading = true
     private var page = 0
@@ -35,7 +35,6 @@ class PokemonList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentHomeBinding.inflate(layoutInflater)
 
         pokemonViewModel = ViewModelProvider(this)[NewPokemonViewModel::class.java]
         pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
@@ -59,14 +58,13 @@ class PokemonList : Fragment() {
     @OptIn(FlowPreview::class)
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        val recyclerView = itemView.findViewById<RecyclerView>(R.id.recycle_view)
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager=layoutManager
+        val binding = FragmentPokemonListBinding.bind(itemView)
+        binding.recycleView.layoutManager=LinearLayoutManager(context)
 
         adapter = RecyclerAdapter()
-        recyclerView.adapter = adapter
+        binding.recycleView.adapter = adapter
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recycleView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val scrollRemaining = recyclerView.computeVerticalScrollRange()-recyclerView.computeVerticalScrollOffset()-recyclerView.computeVerticalScrollExtent()
