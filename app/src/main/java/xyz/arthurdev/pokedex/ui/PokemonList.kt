@@ -1,6 +1,8 @@
 package xyz.arthurdev.pokedex.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.*
 import xyz.arthurdev.pokedex.R
-import xyz.arthurdev.pokedex.RecyclerAdapter
-import xyz.arthurdev.pokedex.databinding.FragmentHomeBinding
+import xyz.arthurdev.pokedex.adapters.RecyclerAdapter
 import xyz.arthurdev.pokedex.databinding.FragmentPokemonListBinding
 import xyz.arthurdev.pokedex.viewModel.NewPokemonViewModel
 
@@ -24,17 +23,19 @@ import xyz.arthurdev.pokedex.viewModel.NewPokemonViewModel
  * create an instance of this fragment.
  */
 class PokemonList : Fragment() {
-
-
-    private var loading = true
+    private var loading = false
     private var page = 0
+    private var noFilter = true
+    private var searchFor = ""
 
+    private lateinit var binding: FragmentPokemonListBinding
     private lateinit var pokemonViewModel: NewPokemonViewModel
     private lateinit var adapter: RecyclerAdapter;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = FragmentPokemonListBinding.inflate(layoutInflater)
 
         pokemonViewModel = ViewModelProvider(this)[NewPokemonViewModel::class.java]
         pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
@@ -44,13 +45,63 @@ class PokemonList : Fragment() {
 
     }
 
+    private fun loadPokemons(){
+        if (loading) return
+        loading = true
+        Log.d("pokemonList", binding.searchBar.text.toString().isNotEmpty().toString())
+        Log.d("pokemonList", noFilter.toString())
+        if(binding.searchBar.text.toString().isNotEmpty()) {
+            if (noFilter) {
+                noFilter = false
+                page = 0
+                adapter.clear()
+            }
+            pokemonViewModel.loadPokemonWithFilter(page, binding.searchBar.text.toString())
+        }else{
+            if (!noFilter) {
+                noFilter = true
+                page = 0
+                adapter.clear()
+            }
+            pokemonViewModel.loadPokemons(page)
+        }
+        page++
+    }
+
+    private fun onSearchTextChanged(binding: FragmentPokemonListBinding, context:Context) {
+        //debounce
+        binding.searchBar.addTextChangedListener(object : android.text.TextWatcher {
+            override fun afterTextChanged(s: android.text.Editable?) {
+                // Do nothing
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText == searchFor)
+                    return
+
+                searchFor = searchText
+                //launch
+                CoroutineScope(Job()).launch {
+                    delay(500)
+                    if (searchFor != searchText) {
+                        loadPokemons()
+                    }
+                }
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        pokemonViewModel.loadPokemons(page)
-        page++
-
+        page=0
+        loadPokemons()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
     }
@@ -58,9 +109,11 @@ class PokemonList : Fragment() {
     @OptIn(FlowPreview::class)
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        val binding = FragmentPokemonListBinding.bind(itemView)
+        binding = FragmentPokemonListBinding.bind(itemView)
         binding.recycleView.layoutManager=LinearLayoutManager(context)
 
+        onSearchTextChanged(binding,binding.recycleView.context)
+        loadPokemons()
         adapter = RecyclerAdapter()
         binding.recycleView.adapter = adapter
 
@@ -68,10 +121,8 @@ class PokemonList : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val scrollRemaining = recyclerView.computeVerticalScrollRange()-recyclerView.computeVerticalScrollOffset()-recyclerView.computeVerticalScrollExtent()
-                if (scrollRemaining < 1500 && !loading) {
-                        loading = true
-                        pokemonViewModel.loadPokemons(page)
-                        page++
+                if (scrollRemaining < 500 && !loading) {
+                    loadPokemons()
 
                 }
             }

@@ -1,8 +1,6 @@
 package xyz.arthurdev.pokedex.ui
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import xyz.arthurdev.pokedex.R
 import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
-import xyz.arthurdev.pokedex.RecyclerAdapterStatistics
+import xyz.arthurdev.pokedex.adapters.RecyclerAdapterStatistics
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 import xyz.arthurdev.pokedex.viewModel.NeighborPokemonViewModel
 
@@ -34,6 +31,7 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frament_pokemon_detail, container, false)
     }
+
 
     private fun getNeighborPokemon(pokemon: SinglePokemonResponse, binding: FramentPokemonDetailBinding){
         val pokemonNeighborViewModel = ViewModelProvider(this)[NeighborPokemonViewModel::class.java]

@@ -1,13 +1,10 @@
 package xyz.arthurdev.pokedex.repository
 
-import android.util.Log
 import xyz.arthurdev.pokedex.api.ApiService
 import xyz.arthurdev.pokedex.models.ItemModelApi
 import xyz.arthurdev.pokedex.models.ListModelAPI
 import xyz.arthurdev.pokedex.models.Region
-import xyz.arthurdev.pokedex.models.SinglePokemonResponse
-import java.util.Optional
-import java.util.SortedMap
+import java.util.*
 
 object RegionRepository {
 
@@ -21,7 +18,7 @@ object RegionRepository {
         val range = (offset+1..offset+limit+1).toList()
         if(regionItemList.keys.containsAll(range)) return
 
-        val listOfRegion : ListModelAPI = apiService.list(limit,offset)
+        val listOfRegion : ListModelAPI = apiService.getRegions(limit,offset)
         count = Optional.of(listOfRegion.count)
         listOfRegion.results.forEachIndexed {index,region:ItemModelApi->
             regionItemList[index+offset+1]=region

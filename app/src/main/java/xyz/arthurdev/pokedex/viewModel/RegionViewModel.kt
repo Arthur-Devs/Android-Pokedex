@@ -1,13 +1,11 @@
 package xyz.arthurdev.pokedex.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import xyz.arthurdev.pokedex.models.Region
-import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 import xyz.arthurdev.pokedex.repository.RegionRepository
 import java.util.*
 
@@ -21,7 +19,6 @@ class RegionViewModel: ViewModel() {
             val series= service.getRegions(10,0)
             val map: MutableMap<Int, Region> = _pokemonMutableLiveData.value ?: mutableMapOf()
             map.putAll(series)
-            Log.d("viewmodel",series.toString())
             _pokemonMutableLiveData.postValue(map.toSortedMap())
         }
     }

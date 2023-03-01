@@ -1,11 +1,12 @@
 package xyz.arthurdev.pokedex.repository
 
-import androidx.annotation.RestrictTo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import xyz.arthurdev.pokedex.api.ApiService
-import xyz.arthurdev.pokedex.models.*
+import xyz.arthurdev.pokedex.models.ItemModelApi
+import xyz.arthurdev.pokedex.models.NeighborPokemon
+import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 import java.util.*
-import java.util.stream.Collectors
 
 object PokemonRepository {
     private var count:Optional<Int> = Optional.empty();
@@ -27,11 +28,18 @@ object PokemonRepository {
         count = Optional.of(pokemonItemList.size)
     }
 
-    private suspend fun fetchPokemons(limit:Int,offset:Int) {
-            val listOfPokemon = pokemonItemList.subList(offset,offset+limit)
-            listOfPokemon.filter { !pokemonList.containsKey(it.name)  }.forEachIndexed { index, pokemon: ItemModelApi ->
-                pokemonList[pokemon.name] = fetchPokemon(index + offset + 1)
-            }
+    private suspend fun fetchPokemons(limit:Int,offset:Int): List<SinglePokemonResponse> {
+        val toIndex: Int = if(offset+limit > count.get()) count.get() else offset +limit
+        if (offset > toIndex || offset < 0 || offset> pokemonItemList.size) return listOf()
+
+        var listOfPokemon = pokemonItemList.subList(offset,toIndex)
+        listOfPokemon = listOfPokemon.filter { !pokemonList.containsKey(it.name)  }
+        val list = mutableListOf<SinglePokemonResponse>()
+        for (pokemon in listOfPokemon) {
+            pokemonList[pokemon.name] = fetchPokemon(pokemon.name)
+            list.add(pokemonList[pokemon.name]!!)
+        }
+        return list
     }
 
     private suspend fun fetchPokemon(id: Int):SinglePokemonResponse {
@@ -45,22 +53,27 @@ object PokemonRepository {
         return pokemon
     }
 
-    suspend fun getPokemons(limit:Int,offset:Int): Map<String,SinglePokemonResponse> {
-        fetchPokemons(limit,offset)
-
-        return pokemonList.toList().subList(offset,offset+limit)
-            .sortedBy { (_, value) -> value.id }
-            .toMap()
+    suspend fun getPokemons(limit:Int,offset:Int): List<SinglePokemonResponse> {
+        val list = fetchPokemons(limit,offset)
+        return list
+            .sortedBy { it.id }
     }
 
-    suspend fun getPokemonsWithFilter(limit:Int,offset:Int,filter:String): Map<String,SinglePokemonResponse> {
-        pokemonItemList.filter { it.name.contains(filter) }.subList(offset,offset+limit).forEach { pokemon: ItemModelApi ->
+    suspend fun getPokemonsWithFilter(limit:Int,offset:Int,filter:String): List<SinglePokemonResponse> {
+        var list =pokemonItemList.filter { it.name.contains(filter) }
+
+
+        val toIndex: Int = if(offset+limit > list.size) list.size else offset +limit
+        if (offset > toIndex || offset < 0 || offset> pokemonItemList.size) return listOf()
+
+        list =list.subList(offset,toIndex)
+        var filteredPokemonList:MutableList<SinglePokemonResponse> = mutableListOf()
+        for (pokemon in list) {
             pokemonList[pokemon.name] = fetchPokemon(pokemon.name)
+            filteredPokemonList.add(pokemonList[pokemon.name]!!)
         }
-        return pokemonList.filter { it.key.contains(filter) }
-            .toList().subList(offset,offset+limit)
-            .sortedBy { (_, value) -> value.id }
-            .toMap()
+
+        return filteredPokemonList.sortedBy { it.id }
     }
 
     suspend fun getPokemonNeighbor(pokemon: SinglePokemonResponse):NeighborPokemon {

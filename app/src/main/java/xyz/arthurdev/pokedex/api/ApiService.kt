@@ -15,17 +15,6 @@ object ApiService {
 
     private val service: PokemonApi = retrofit.create(PokemonApi::class.java)
 
-    suspend fun list(limit: Int,offset: Int): ListModelAPI{
-        return service.getPokemons(limit,offset)
-    }
-
-    suspend fun listAll(): ListModelAPI{
-        return service.getPokemons(null, null)
-    }
-
-    suspend fun getPokemonByName(name: String): SinglePokemonResponse{
-        return service.getPokemon(name)
-    }
     suspend fun getPokemon(name:String): SinglePokemonResponse{
         return service.getPokemon(name)
     }

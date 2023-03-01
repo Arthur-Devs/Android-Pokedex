@@ -21,9 +21,7 @@ class NewPokemonViewModel: ViewModel() {
     fun loadPokemons(page: Int){
         viewModelScope.launch {
             val series= service.getPokemons(limit,limit*page)
-            val list: MutableList<SinglePokemonResponse> =  mutableListOf()
-            _pokemonMutableLiveData.value?.let { list.addAll(it) }
-            list.addAll(series.values)
+            val list: MutableList<SinglePokemonResponse> =  series.toMutableList()
             _pokemonMutableLiveData.postValue(list.sortedBy { it.id })
         }
     }
@@ -31,9 +29,7 @@ class NewPokemonViewModel: ViewModel() {
     fun loadPokemonWithFilter(page:Int,filter:String){
         viewModelScope.launch {
             val series= service.getPokemonsWithFilter(limit,limit*page,filter)
-            val list: MutableList<SinglePokemonResponse> = (_pokemonMutableLiveData.value ?: mutableListOf()) as MutableList<SinglePokemonResponse>
-            list.addAll(series.values)
-            //sort by pokemon id in value
+            val list: MutableList<SinglePokemonResponse> =  series.toMutableList()
             _pokemonMutableLiveData.postValue(
            list.sortedBy { it.id }
             )

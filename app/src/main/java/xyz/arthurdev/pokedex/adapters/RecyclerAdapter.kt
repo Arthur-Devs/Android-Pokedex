@@ -1,4 +1,4 @@
-package xyz.arthurdev.pokedex
+package xyz.arthurdev.pokedex.adapters
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +10,13 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import xyz.arthurdev.pokedex.R
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 import xyz.arthurdev.pokedex.ui.PokemonListDirections
 
 
 class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-    private var pokemons: List<SinglePokemonResponse> = ArrayList();
+    private var pokemons: MutableList<SinglePokemonResponse> = ArrayList();
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -39,7 +40,11 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.pokemonName.text = pokemons.elementAt(i).name
 
-        Picasso.with(viewHolder.pokemonImage.context).load(pokemons.elementAt(i).sprites.front_default).into(viewHolder.pokemonImage)
+        if (pokemons.elementAt(i).sprites.front_default != null){
+            Picasso.with(viewHolder.pokemonImage.context).load(pokemons.elementAt(i).sprites.front_default).into(viewHolder.pokemonImage)}
+        else if (pokemons.elementAt(i).sprites.front_shiny != null){
+            Picasso.with(viewHolder.pokemonImage.context).load(R.drawable.pokeball).into(viewHolder.pokemonImage)}
+
         viewHolder.card.setOnClickListener {
             val bundle = Bundle()
             val pokemon = pokemons.elementAt(i)
@@ -54,8 +59,14 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     fun addPokemon(pokemonList: List<SinglePokemonResponse>){
-        pokemons =pokemonList
+        pokemons.addAll(pokemonList)
+        pokemons.sortedBy { it.id }
         notifyDataSetChanged()
+    }
+
+    fun clear(){
+        val size = pokemons.size
+        pokemons.clear()
     }
 
 }
