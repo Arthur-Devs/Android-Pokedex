@@ -1,6 +1,7 @@
 package xyz.arthurdev.pokedex.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,7 @@ class RegionListFragment: Fragment(R.layout.fragment_region_list) {
     ): View? {
         pokemonViewModel.loadRegion()
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
+        return inflater.inflate(R.layout.fragment_region_list, container, false)
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {

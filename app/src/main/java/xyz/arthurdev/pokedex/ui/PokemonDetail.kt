@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import xyz.arthurdev.pokedex.R
-import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
 import xyz.arthurdev.pokedex.adapters.RecyclerAdapterStatistics
+import xyz.arthurdev.pokedex.databinding.FramentPokemonDetailBinding
 import xyz.arthurdev.pokedex.models.SinglePokemonResponse
 import xyz.arthurdev.pokedex.viewModel.NeighborPokemonViewModel
+import java.util.*
+
 
 class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
     val args: PokemonDetailArgs by navArgs()
@@ -59,6 +62,8 @@ class PokemonDetail : Fragment(R.layout.frament_pokemon_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentBinding = FramentPokemonDetailBinding.bind(view)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Pokemon Detail - ${args.pokemon.name}"
+
         val pokemon = args.pokemon
         getNeighborPokemon(pokemon,fragmentBinding)
 

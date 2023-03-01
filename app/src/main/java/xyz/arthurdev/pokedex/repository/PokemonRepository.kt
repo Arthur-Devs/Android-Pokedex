@@ -1,5 +1,6 @@
 package xyz.arthurdev.pokedex.repository
 
+import android.util.Log
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import xyz.arthurdev.pokedex.api.ApiService
@@ -30,12 +31,16 @@ object PokemonRepository {
 
     private suspend fun fetchPokemons(limit:Int,offset:Int): List<SinglePokemonResponse> {
         val toIndex: Int = if(offset+limit > count.get()) count.get() else offset +limit
-        if (offset > toIndex || offset < 0 || offset> pokemonItemList.size) return listOf()
+        Log.d("PokemonRepository","fetchPokemons: $limit $offset $toIndex ${pokemonItemList.size}")
+        if ( offset < 0 || offset> pokemonItemList.size) return listOf()
 
-        var listOfPokemon = pokemonItemList.subList(offset,toIndex)
-        listOfPokemon = listOfPokemon.filter { !pokemonList.containsKey(it.name)  }
+        val listOfPokemon = pokemonItemList.subList(offset,toIndex)
         val list = mutableListOf<SinglePokemonResponse>()
         for (pokemon in listOfPokemon) {
+            if (pokemonList.containsKey(pokemon.name)) {
+                list.add(pokemonList[pokemon.name]!!)
+                continue
+            }
             pokemonList[pokemon.name] = fetchPokemon(pokemon.name)
             list.add(pokemonList[pokemon.name]!!)
         }
@@ -54,7 +59,9 @@ object PokemonRepository {
     }
 
     suspend fun getPokemons(limit:Int,offset:Int): List<SinglePokemonResponse> {
+        Log.d("PokemonRepository","getPokemons: $limit $offset")
         val list = fetchPokemons(limit,offset)
+        Log.d("PokemonRepository","getPokemons: ${list.size}")
         return list
             .sortedBy { it.id }
     }

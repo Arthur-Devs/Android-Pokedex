@@ -41,6 +41,6 @@
     <fragment
         android:id="@+id/regionListFragment"
         android:name="xyz.arthurdev.pokedex.ui.RegionListFragment"
-        android:label="fragment_region_list"
+        android:label="List of regions"
         tools:layout="@layout/fragment_region_list" />
 </navigation>

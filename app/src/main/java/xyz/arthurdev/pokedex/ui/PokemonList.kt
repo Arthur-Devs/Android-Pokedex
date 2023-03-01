@@ -40,19 +40,21 @@ class PokemonList : Fragment() {
         pokemonViewModel = ViewModelProvider(this)[NewPokemonViewModel::class.java]
         pokemonViewModel.pokemonLiveDate.observe(this) { pokemons ->
             adapter.addPokemon(pokemons)
+            Log.d("pokemonList", pokemons.size.toString())
             loading = false;
         }
 
     }
 
-    private fun loadPokemons(){
+    private fun loadPokemons(searchChange: Boolean = false) {
         if (loading) return
         loading = true
-        Log.d("pokemonList", binding.searchBar.text.toString().isNotEmpty().toString())
+        Log.d("pokemonList", binding.searchBar.text.toString())
         Log.d("pokemonList", noFilter.toString())
         if(binding.searchBar.text.toString().isNotEmpty()) {
-            if (noFilter) {
-                noFilter = false
+            if (noFilter) noFilter = false
+
+            if (searchChange) {
                 page = 0
                 adapter.clear()
             }
@@ -63,7 +65,9 @@ class PokemonList : Fragment() {
                 page = 0
                 adapter.clear()
             }
+            Log.d("pokemonList", page.toString())
             pokemonViewModel.loadPokemons(page)
+            Log.d("pokemonList", "loadPokemons")
         }
         page++
     }
@@ -81,15 +85,20 @@ class PokemonList : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchText = s.toString().trim()
+                Log.d("pokemonList", searchText)
+                Log.d("pokemonList", searchFor)
                 if (searchText == searchFor)
                     return
 
                 searchFor = searchText
                 //launch
                 CoroutineScope(Job()).launch {
-                    delay(500)
-                    if (searchFor != searchText) {
-                        loadPokemons()
+                    delay(200)
+                    if (searchFor == searchText) {
+                        Log.d("pokemonList", "loadPokemons")
+                        Log.d("pokemonList", searchText)
+                        Log.d("pokemonList", searchFor)
+                        loadPokemons(true)
                     }
                 }
             }
@@ -113,6 +122,7 @@ class PokemonList : Fragment() {
         binding.recycleView.layoutManager=LinearLayoutManager(context)
 
         onSearchTextChanged(binding,binding.recycleView.context)
+        page=0
         loadPokemons()
         adapter = RecyclerAdapter()
         binding.recycleView.adapter = adapter
